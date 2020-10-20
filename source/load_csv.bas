@@ -1,5 +1,5 @@
 #include once "file.bi"
-
+#include "string.bi"
 /'
   Number of claims
   Total payment for all the claims in thousands of Swedish Kronor
@@ -49,12 +49,58 @@ function loadDataset( byref path as const string ) as InsuranceTable
   return( t )
 end function
 
-var t = loadDataset( "D:\repo\FB_libLINREG\datasets\dataset.csv" )
+'SUB iAppend(arr() AS DOUBLE, item AS DOUBLE)
+'   REDIM PRESERVE arr(LBOUND(arr) TO UBOUND(arr) +1)
+'   arr(UBOUND(arr)) = item
+'END SUB
 
+SUB iAppend(arr() AS DOUBLE, item AS DOUBLE)
+    dim as integer lbnd = LBOUND(arr), ubnd =  UBOUND(arr)
+    REDIM PRESERVE arr(lbnd TO ubnd+1)
+    arr(ubnd+1) = item
+END SUB
+
+' Calculate the mean value of a list of numbers
+function sum(x() as double) as double
+  dim as single result
+  for i as integer = 0 to ubound(x) - 1
+    result = result + x(i)
+  next i
+  return result
+end FUNCTION
+
+function mean(x() as double) as double
+  return sum(x()) / cdbl(ubound(x) + 1)
+end FUNCTION
+
+function covariance(x()as double, mean_x as double, y() as double, mean_y as double) as Double
+    dim covar as Double
+    for i as integer = 0 to UBOUND(x) - 1
+        covar += (x(i) - mean_x) * (y(i) - mean_y)
+    next
+    return covar
+end FUNCTION
+
+var t = loadDataset( "D:\repo\FB_libLINREG\datasets\dataset.csv" )
+REDIM SHARED x(0) AS DOUBLE
+REDIM SHARED y(0) AS DOUBLE
 for i as integer = 0 to t.count - 1
+  
   with t[ i ]
-    ? .numberOfClaims, .totalPayment
-  end with
-next
+     IAPPEND x(), CDBL(.numberOfClaims)
+     IAPPEND y(),  CDBL(.totalPayment)
+    '? .numberOfClaims, "means:", STR(CAST(SINGLE,(MEAN(x(i)))), .totalPayment, STR(CAST(SINGLE,(MEAN(y(i))))
+  end WITH
+  WITH t [ i ]
+     '? .numberOfClaims, "means:", STR(CAST(SINGLE,(MEAN(x())))), .totalPayment,  "varients: ", STR(CAST(SINGLE,(MEAN(y()))))
+      ? .numberOfClaims, "means:", format(MEAN(x()), "0.00"), .totalPayment,  "varients: ", format(MEAN(y()), "0.00")
+  END WITH
+NEXT
+
+FOR i AS INTEGER = 0 TO t.count -1
+   WITH t [ i ]
+   ? .numberOfClaims, "convariance: ", format(COVARIANCE(x(), mean(x()), y(), mean(y())), "0.00"), .totalPayment',  "varients: ", format(MEAN(y()), "0.00")
+   END WITH
+NEXT
 
 sleep()
