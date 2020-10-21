@@ -87,20 +87,20 @@ REDIM SHARED y(0) AS DOUBLE
 for i as integer = 0 to t.count - 1
   
   with t[ i ]
+     
      IAPPEND x(), CDBL(.numberOfClaims)
      IAPPEND y(),  CDBL(.totalPayment)
-    '? .numberOfClaims, "means:", STR(CAST(SINGLE,(MEAN(x(i)))), .totalPayment, STR(CAST(SINGLE,(MEAN(y(i))))
+    
   end WITH
   WITH t [ i ]
-     '? .numberOfClaims, "means:", STR(CAST(SINGLE,(MEAN(x())))), .totalPayment,  "varients: ", STR(CAST(SINGLE,(MEAN(y()))))
+     
       ? .numberOfClaims, "means:", format(MEAN(x()), "0.00"), .totalPayment,  "varients: ", format(MEAN(y()), "0.00")
+  
   END WITH
 NEXT
 
-FOR i AS INTEGER = 0 TO t.count -1
-   WITH t [ i ]
-   ? .numberOfClaims, "convariance: ", format(COVARIANCE(x(), mean(x()), y(), mean(y())), "0.00"), .totalPayment',  "varients: ", format(MEAN(y()), "0.00")
-   END WITH
-NEXT
+
+   ?  "convariance: ", format(COVARIANCE(x(), mean(x()), y(), mean(y())), "0.00")
+
 
 sleep()
