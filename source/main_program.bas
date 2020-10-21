@@ -130,12 +130,44 @@ FUNCTION COEFFICIENTSb1 (x() AS DOUBLE,mean_x AS DOUBLE, y() AS DOUBLE, mean_y A
    END WITH
    
 END FUNCTION
+ 
+FUNCTION rmse_meteric(actual() AS DOUBLE, predicted AS DOUBLE) AS DOUBLE
+   DIM sum_error AS DOUBLE = 0.0
+   
+END FUNCTION
+ 
+ 
+ REDIM SHARED test_set_x(0) AS DOUBLE
+ REDIM SHARED test_set_y(0) AS DOUBLE
+
+TYPE function_type AS FUNCTION(() As DOUBLE, () AS DOUBLE, () AS DOUBLE, () AS DOUBLE) As DOUBLE
+
+FUNCTION elvaluate_algo(x() AS DOUBLE, y() AS DOUBLE, BYVAL algorithem AS function_type) AS DOUBLE
+   
+   FOR i AS INTEGER = 0 TO UBOUND(x) - 1
+      IAPPEND test_set_x(), x(i)
+      IAPPEND test_set_y(), y(i)
+   NEXT
+    REDIM actual(0) AS DOUBLE
+    DIM AS DOUBLE predicted = algorithem(x(),y(), test_set_x(), test_set_y())
+   FOR i AS INTEGER = 0 TO UBOUND(y) - 1
+      
+   NEXT
+END FUNCTION
+
+FUNCTION simple_linear_regression(train() AS DOUBLE, test() AS DOUBLE) AS DOUBLE
+   REDIM prediction(0) AS DOUBLE
+   
+END FUNCTION
+
 
 var t = loadDataset( "D:\repo\FB_libLINREG\datasets\test.csv" )
 
 REDIM SHARED x(0) AS DOUBLE
 REDIM SHARED y(0) AS DOUBLE
+
 DIM AS DOUBLE mean_x, mean_y, covar
+
 for i as integer = 0 to t.count - 1
   
   with t[ i ]
