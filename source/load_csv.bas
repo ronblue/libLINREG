@@ -17,6 +17,13 @@ type InsuranceTable
   as uinteger count
 end type
 
+TYPE COEFFICI
+   AS SINGLE _
+   b0, _
+   b1
+END TYPE
+
+
 operator InsuranceTable.[]( byval index as uinteger ) byref as InsuranceData
   return( row( index ) )
 end operator
@@ -69,21 +76,66 @@ function sum(x() as double) as double
   return result
 end FUNCTION
 
+function sum2(x() as DOUBLE, mean2 AS DOUBLE) as double
+  dim as single result
+  for i as integer = 0 to ubound(x) - 1
+    result = result + x(i) - mean2
+  next i
+  return result
+end FUNCTION
+
 function mean(x() as double) as double
   return sum(x()) / cdbl(ubound(x) + 1)
 end FUNCTION
 
-function covariance(x()as double, mean_x as double, y() as double, mean_y as double) as Double
+
+' Calculate the variance of a list of numbers
+function variance(values() AS double, BYVAL means AS DOUBLE) AS DOUBLE
+   DIM resalt AS DOUBLE = 0
+   FOR i AS INTEGER = LBOUND(values) TO UBOUND(values)
+      resalt = resalt + (values(i) - means) * (values(i) - means)
+   NEXT i
+   Return resalt
+END FUNCTION
+
+FUNCTION covariance(x()as double, mean_x as double, y() as double, mean_y as double) as Double
     dim covar as Double
     for i as integer = 0 to UBOUND(x) - 1
         covar += (x(i) - mean_x) * (y(i) - mean_y)
     next
     return covar
 end FUNCTION
+' calculate cofficiants
 
-var t = loadDataset( "D:\repo\FB_libLINREG\datasets\dataset.csv" )
+FUNCTION COEFFICIENTSb0 (x() AS DOUBLE,mean_x AS DOUBLE, y() AS DOUBLE, mean_y AS DOUBLE) AS DOUBLE
+   DIM coeffici AS COEFFICI
+   mean_x = MEAN(x())
+   mean_y = MEAN(y())
+   WITH coeffici
+      .b1 = COVARIANCE(x(), mean_x, y(), mean_y) / VARIANCE(x(), mean_x)
+      .b0 = mean_y - .b1 * mean_x
+   RETURN .b0
+   END WITH
+   
+END FUNCTION
+
+FUNCTION COEFFICIENTSb1 (x() AS DOUBLE,mean_x AS DOUBLE, y() AS DOUBLE, mean_y AS DOUBLE) AS DOUBLE
+   DIM coeffici AS COEFFICI
+   mean_x = MEAN(x())
+   mean_y = MEAN(y())
+   WITH coeffici
+      .b1 = COVARIANCE(x(), mean_x, y(), mean_y) / VARIANCE(x(), mean_x)
+      .b0 = mean_y - .b1 * mean_x
+   RETURN .b1
+   END WITH
+   
+END FUNCTION
+
+var t = loadDataset( "D:\repo\FB_libLINREG\datasets\test.csv" )
+
 REDIM SHARED x(0) AS DOUBLE
 REDIM SHARED y(0) AS DOUBLE
+DIM AS DOUBLE mean_x, mean_y, covar
 for i as integer = 0 to t.count - 1
   
   with t[ i ]
@@ -94,13 +146,21 @@ for i as integer = 0 to t.count - 1
   end WITH
   WITH t [ i ]
      
-      ? .numberOfClaims, "means:", format(MEAN(x()), "0.00"), .totalPayment,  "varients: ", format(MEAN(y()), "0.00")
+      ? .numberOfClaims, "means:", format(MEAN(x()), "0.00"), .totalPayment,  "means: ", format(MEAN(y()), "0.00")
   
   END WITH
 NEXT
 
 
    ?  "convariance: ", format(COVARIANCE(x(), mean(x()), y(), mean(y())), "0.00")
+   
+      mean_x = MEAN(x())
+      mean_y = MEAN(y())
+      covar = COVARIANCE(x(), mean_x, y(), mean_y)
+      
+   ? "X colume:", FORMAT(mean_x,"0.00"), "Y colume:", FORMAT(mean_y, "0.00"), "CONVARIANCE:", FORMAT(covar, "0.00")
 
-
+   ? "varients x:", FORMAT(VARIANCE(x(),mean_x), "0.00"), "VARIANCE y:",  FORMAT(VARIANCE(y(), mean_y), "0.00")
+   
+   ? "COEFFICIENTS:", "b0: " & FORMAT(COEFFICIENTSB0(x(), mean_x, y(), mean_y), "0.00"), "b1: " & FORMAT(COEFFICIENTSB1(x(), mean_x, y(), mean_y), "0.00") 
 sleep()
