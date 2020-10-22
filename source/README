@@ -1,4 +1,7 @@
 i am trying to convert a simple linear regression code from python to FB as part of my effort to create a ML FB library of linear regression.
+well the intension is to make a library of ML linear regression in FB so when (hopefully) we'll have a working linear regression program code in FB
+that's just one step the next is to make out of it a library (libLINREG) with a bi file and a libLINREG.a file so any one in FB won't have to code this headache over and over
+when trying to add some linear regression calculation to his data / program
 
 source of python code is in this site: https://machinelearningmastery.com/implement-simple-linear-regression-scratch-python/
 
