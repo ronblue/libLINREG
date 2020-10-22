@@ -18,11 +18,15 @@ type InsuranceTable
 end type
 
 TYPE COEFFICI
-   AS SINGLE _
+   AS DOUBLE _
    b0, _
    b1
 END TYPE
 
+
+
+DIM SHARED coeffici1 AS COEFFICI
+DIM SHARED coefficiReturn AS COEFFICI
 
 operator InsuranceTable.[]( byval index as uinteger ) byref as InsuranceData
   return( row( index ) )
@@ -84,6 +88,7 @@ function sum2(x() as DOUBLE, mean2 AS DOUBLE) as double
   return result
 end FUNCTION
 
+'calculate mean
 function mean(x() as double) as double
   return sum(x()) / cdbl(ubound(x) + 1)
 end FUNCTION
@@ -107,33 +112,40 @@ FUNCTION covariance(x()as double, mean_x as double, y() as double, mean_y as dou
 end FUNCTION
 ' calculate cofficiants
 
-FUNCTION COEFFICIENTSb0 (x() AS DOUBLE,mean_x AS DOUBLE, y() AS DOUBLE, mean_y AS DOUBLE) AS DOUBLE
-   DIM coeffici AS COEFFICI
-   mean_x = MEAN(x())
-   mean_y = MEAN(y())
-   WITH coeffici
-      .b1 = COVARIANCE(x(), mean_x, y(), mean_y) / VARIANCE(x(), mean_x)
-      .b0 = mean_y - .b1 * mean_x
-   RETURN .b0
-   END WITH
-   
-END FUNCTION
+'FUNCTION COEFFICIENTSb0 (x() AS DOUBLE,mean_x AS DOUBLE, y() AS DOUBLE, mean_y AS DOUBLE) AS DOUBLE
+'   DIM coeffici AS COEFFICI
+'   mean_x = MEAN(x())
+'   mean_y = MEAN(y())
+'   WITH coeffici
+'      .b1 = COVARIANCE(x(), mean_x, y(), mean_y) / VARIANCE(x(), mean_x)
+'      .b0 = mean_y - .b1 * mean_x
+'   RETURN .b0
+'   END WITH
+'   
+'END FUNCTION
 
-FUNCTION COEFFICIENTSb1 (x() AS DOUBLE,mean_x AS DOUBLE, y() AS DOUBLE, mean_y AS DOUBLE) AS DOUBLE
-   DIM coeffici AS COEFFICI
+SUB COEFFICIENTS (x() AS DOUBLE,mean_x AS DOUBLE, y() AS DOUBLE, mean_y AS DOUBLE)
+   
    mean_x = MEAN(x())
    mean_y = MEAN(y())
-   WITH coeffici
-      .b1 = COVARIANCE(x(), mean_x, y(), mean_y) / VARIANCE(x(), mean_x)
-      .b0 = mean_y - .b1 * mean_x
-   RETURN .b1
+   WITH coeffici1
+      coeffici1.b1 = COVARIANCE(x(), mean_x, y(), mean_y) / VARIANCE(x(), mean_x)
+      coeffici1.b0 = mean_y - .b1 * mean_x
+   'RETURN coeffici1
    END WITH
    
-END FUNCTION
+END SUB
  
-FUNCTION rmse_meteric(actual() AS DOUBLE, predicted AS DOUBLE) AS DOUBLE
-   DIM sum_error AS DOUBLE = 0.0
-   
+FUNCTION rmse_meteric(actual() AS DOUBLE, predicted() AS DOUBLE) AS DOUBLE
+   DIM sum_error AS DOUBLE
+   DIM prediction_error AS DOUBLE
+   DIM mean_error AS DOUBLE  
+   for i AS INTEGER = 0 to len(actual)-1
+      prediction_error = predicted(i) - actual(i)
+      sum_error += (prediction_error ^ 2)
+   NEXT
+   mean_error = sum_error / len(actual)
+   return sqr(mean_error)
 END FUNCTION
  
  
@@ -193,6 +205,8 @@ NEXT
    ? "X colume:", FORMAT(mean_x,"0.00"), "Y colume:", FORMAT(mean_y, "0.00"), "CONVARIANCE:", FORMAT(covar, "0.00")
 
    ? "varients x:", FORMAT(VARIANCE(x(),mean_x), "0.00"), "VARIANCE y:",  FORMAT(VARIANCE(y(), mean_y), "0.00")
-   
-   ? "COEFFICIENTS:", "b0: " & FORMAT(COEFFICIENTSB0(x(), mean_x, y(), mean_y), "0.00"), "b1: " & FORMAT(COEFFICIENTSB1(x(), mean_x, y(), mean_y), "0.00") 
+   'WITH coefficiReturn
+   COEFFICIENTS(x(), mean_x, y(), mean_y)
+   ? "COEFFICIENTS:", "b0: " & coeffici1.b0, "b1: " & coeffici1.b1 
+   'END with
 sleep()
