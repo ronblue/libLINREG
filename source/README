@@ -18,6 +18,7 @@ update (23/10/2020) version 0.0.2.1:
 - i offered Paul doe to become a collaborator in project - i hope he will accept invitation. the most important thing in Paul doe code is the equations function - the math equations function which i hope will be at the core of the library at the end...
 - old code of attempts to convert the python code that was scrapped is now in "source/ARCHIVE" folder
 - looks like there is no option but to use UDT and OOP in order to create a linear regression / python code equivalent result
+- the project's github repository has been transferred to Tourist Trap since he's doing 99.9 % of the hard work i think it's better he'll take charge of the project. 
 update(22/10/2020) version 0.0.2:
 - Tourist Trap joined the project as a collaborator.
 - we decided to start from scratch and ditch the main_program.bas code with the OOP to load the csv file...
