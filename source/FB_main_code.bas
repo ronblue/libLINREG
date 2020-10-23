@@ -11,24 +11,14 @@
 'SLEEP()
 
 type P2
-    declare constructor()
-    declare destructor()
     declare operator []( byval index As integer ) byref As double
-    as double ptr _dptr(1 to 2)
+    as double _d(1 to 2) = {1, 1}
 end type
 
-constructor P2()
-    this._dptr(1) = new double(1)
-    this._dptr(2) = new double(1)
-end constructor
-destructor P2()
-    delete this._dptr(1)
-    delete this._dptr(2)
-end destructor
-
 operator P2.[]( byval index As integer ) byref As double
-    return *This._dptr(index)
-end OPERATOR
+    return _d(index)
+end operator
+
 
 function CharCount(byref S as const string) as integer
     dim as integer returnValue = 0
@@ -78,10 +68,10 @@ for i as integer = 0 to ubound(datasetdefined, 1)
     ? dataset(i,0),, dataset(i,1)
 next i
 
-DIM as P2 pp
+dim as P2 pp
 
-*pp._dptr(1) = 998
-*pp._dptr(2) = 887
+pp._d(1) = 998
+pp._d(2) = 887
 
 pp[1] = 666.779
 
