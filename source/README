@@ -1,7 +1,7 @@
 i am trying to convert a simple linear regression code from python to FB as part of my effort to create a ML FB library of linear regression.
 well the intension is to make a library of ML linear regression in FB so when (hopefully) we'll have a working linear regression program code in FB
-that's just one step the next is to make out of it a library (libLINREG) with a bi file and a libLINREG.a file so any one in FB won't have to code this headache over and over
-when trying to add some linear regression calculation to his data / program
+that's just one step the next is to make out of it a library (libLINREG) with a bi file and a libLINREG.a file so any one in FB won't have to code this
+headache over and over when trying to add some linear regression calculation to his data / program
 
 source of python code is in this site: https://machinelearningmastery.com/implement-simple-linear-regression-scratch-python/
 
@@ -11,15 +11,22 @@ project repository on github: https://github.com/ronblue/libLINREG
 
 any help or contribution will be welcome this is an open source community project...
 
-update(22/10/2020) version 0.0.2 :
+here is the thread in forum where we are trying to do the conversion/translation of the code from python to FB: viewtopic.php?f=2&t=28908
+
+update (23/10/2020) version 0.0.2.1:
+- pual doe posted working code that mimics the result of python code (including presenting the results as a graph) by so proving that FB linear regression program is possible
+- i offered pual doe to become a collaborator in project - i hope he will accept invitation. the most important thing in paul doe code is the equations function - the math equations function which i hope will be at the core of the library at the end...
+- old code of attempts to convert the python code that was scrapped is now in "source/ARCHIVE" folder
+- looks like there is no option but to use UDT and OOP in order to create a linear regression / python code equivalent result
+update(22/10/2020) version 0.0.2:
 - Tourist Trap joined the project as a collaborator.
-- we decided to start from scratch and ditch the main_program.bas code with the OOP to load the csv file... 
+- we decided to start from scratch and ditch the main_program.bas code with the OOP to load the csv file...
 - now we start to convert\translate the python code 1 to 1 - version of code is now 0.0.2
 version 0.01(21/10/2020):
 - checked if python code example works (and it does) ( in "py_example/py_linear_example" )
 - dataset csv in "datasets\dataset.scv" of Swedish insurance data made this will be test and train data
 - source code in "source\Load_csv.bas" - an attempt to convert the py code program to a working FB code program ( so far csv file data are loaded into the program and been able to convert py code for finding means varients and find convariance of data )
-update 21/10/2020:
+update 21/10/2020:]
 - today tried to convert more of the python code to FB and add it to bas source code with partial success. help is needed by others
 - it seems that the python code is more accurate then the FB code using the simple test.cvs file
-- found a vb code example of simple linear regression here: https://www.centerspace.net/examples/nmath-stats/visual-basic/simple-linear-regression-example.php however i believe i should continue to convert the python code...
+- found a vb code example of simple linear regression here: https://www.centerspace.net/examples/nm ... xample.php however i believe i should continue to convert the python code...
