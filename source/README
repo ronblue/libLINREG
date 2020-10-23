@@ -11,7 +11,7 @@ project repository on github: https://github.com/ronblue/libLINREG
 
 any help or contribution will be welcome this is an open source community project...
 
-here is the thread in forum where we are trying to do the conversion/translation of the code from python to FB: viewtopic.php?f=2&t=28908
+here is the thread in forum where we are trying to do the conversion/translation of the code from python to FB: https://www.freebasic.net/forum/viewtopic.php?f=2&t=28908
 
 update (23/10/2020) version 0.0.2.1:
 - pual doe posted working code that mimics the result of python code (including presenting the results as a graph) by so proving that FB linear regression program is possible
