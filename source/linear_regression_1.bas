@@ -134,7 +134,7 @@ Screeninfo xres,yres
 Window(0,0)-(xres,yres)
 
 REDIM p(any) AS ListPair
-loadDataset( "D:\repo\FB_libLINREG\datasets\dataset.csv", p() )
+loadDataset( ".\..\datasets\dataset.csv", p() )
 GetRegressionLineAndShow(p(),xres,yres)
 'SLEEP
 'CLS
