@@ -5,7 +5,7 @@ the idea is to convert code from python to a freeBASIC library
 https://machinelearningmastery.com/implement-simple-linear-regression-scratch-python/
 
 UPDATE 16/11/2020:
-LIBRARY WITH "BI" FILE AND "LIB" FILE AND TEST BAS FILE ARE IN "FB_MAIN_CODE_SECTIOM" FOLDER
+LIBRARY WITH "BI" FILE AND "LIB" FILE AND TEST BAS FILE ARE IN "FB_MAIN_CODE_SECTION" FOLDER
 freeBASIC NOW HAS A LINEAR REGRESSION ML LIBRARY
 THANKS TO:
 IMORTIS...
