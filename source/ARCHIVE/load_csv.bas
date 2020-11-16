@@ -6,9 +6,7 @@
   for geographical zones in Sweden
 '/
 type InsuranceData
-  as single _
-    numberOfClaims, _
-    totalPayment
+  as single numberOfClaims, totalPayment
 end type
 
 type InsuranceTable
@@ -43,13 +41,14 @@ function loadDataset( byref path as const string ) as InsuranceTable
       input #f, d.totalPayment
       
       add( t, d )
-    loop
+    LOOP
+    CLOSE #f
   end if
   
   return( t )
 end function
 
-var t = loadDataset( "D:\repo\FB_libLINREG\datasets\test.csv" )
+var t = loadDataset( "D:\repo\FB_libLINREG\datasets\dataset.csv" )
 
 for i as integer = 0 to t.count - 1
   with t[ i ]

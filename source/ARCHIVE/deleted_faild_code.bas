@@ -74,7 +74,7 @@ END SUB
 ' Calculate the mean value of a list of numbers
 function sum(x() as double) as double
   dim as single result
-  for i as integer = 0 to ubound(x) - 1
+  for i as integer = 0 to ubound(x)
     result = result + x(i)
   next i
   return result
@@ -82,7 +82,7 @@ end FUNCTION
 
 function sum2(x() as DOUBLE, mean2 AS DOUBLE) as double
   dim as single result
-  for i as integer = 0 to ubound(x) - 1
+  for i as integer = 0 to ubound(x)
     result = result + x(i) - mean2
   next i
   return result
@@ -105,7 +105,7 @@ END FUNCTION
 
 FUNCTION covariance(x()as double, mean_x as double, y() as double, mean_y as double) as Double
     dim covar as Double
-    for i as integer = 0 to UBOUND(x) - 1
+    for i as integer = 0 to UBOUND(x)
         covar += (x(i) - mean_x) * (y(i) - mean_y)
     next
     return covar
@@ -156,13 +156,13 @@ TYPE function_type AS FUNCTION(() As DOUBLE, () AS DOUBLE, () AS DOUBLE, () AS D
 
 FUNCTION elvaluate_algo(x() AS DOUBLE, y() AS DOUBLE, BYVAL algorithem AS function_type) AS DOUBLE
    
-   FOR i AS INTEGER = 0 TO UBOUND(x) - 1
+   FOR i AS INTEGER = 0 TO UBOUND(x)
       IAPPEND test_set_x(), x(i)
       IAPPEND test_set_y(), y(i)
    NEXT
     REDIM actual(0) AS DOUBLE
     DIM AS DOUBLE predicted = algorithem(x(),y(), test_set_x(), test_set_y())
-   FOR i AS INTEGER = 0 TO UBOUND(y) - 1
+   FOR i AS INTEGER = 0 TO UBOUND(y)
       
    NEXT
 END FUNCTION
